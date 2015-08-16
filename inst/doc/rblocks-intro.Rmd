@@ -1,0 +1,158 @@
+---
+title: "Introduction to rblocks"
+author: "Nelson Areal"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to rblocks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo=TRUE, warning=FALSE, message=FALSE, fig.width = 3.5, fig.height = 3.5)
+```
+
+`rblocks` whas created by [Ramnath Vaidyanathan](http://ramnathv.github.io/) and he describes the package functionality on this blog post: [rblocks Package v 0.1 · Addicted to R](http://ramnathv.github.io/posts/rblocks-pkg/)
+
+My fork added some functionality to the package, namely the ability to output the contents of the objects created using the function `make_block`, as well as the index of each element. Printing the output contents currently works for vectors and data frames. 
+
+This added functionality is particularly useful to create slides explaining R data strutures and how to subset them.
+
+## Install and load the package
+
+To install run:
+
+```{r, eval=FALSE}
+devtools::install_github('rblocks', 'nareal')
+```
+
+and then load the package:
+```{r}
+library(rblocks)
+```
+
+## Examples
+
+It is possible to create vectors, matrices, data frames and lists.
+
+### Vector
+
+Create blocks representing a vector by just specifying its size:
+
+```{r}
+a_vector <- make_block(7, type = "vector")
+a_vector
+```
+
+It is also possible to create the blocks from an existing vector preserving its contents
+
+```{r}
+b_vector <- make_block(7:1, type = "vector")
+b_vector
+```
+
+The original contents is stored as an attribute:
+
+```{r}
+attributes(b_vector)
+```
+
+It is now possible to show the vector indices:
+
+```{r}
+display(b_vector, show_indices = T)
+```
+
+as well as its contents:
+```{r}
+display(b_vector, show_indices = T, show_data = T)
+```
+
+
+### Matrix
+
+
+Again a matrix block can be created by specifing the type and matrix size:
+```{r}
+a_matrix <- make_block(3, 5, type = "matrix")
+a_matrix
+```
+
+We can also display the indices:
+```{r}
+display(a_matrix, show_indices = T)
+```
+
+If the matrix block is created from an existing matrix, we will be able to display its original contents:
+```{r}
+my_matrix <- matrix(1:10, nrow = 5, ncol = 2)
+b_matrix <- make_block(my_matrix, type = "matrix")
+display(b_matrix, show_data = T)
+```
+
+
+
+### Data frame
+
+```{r, echo=TRUE}
+a_dataframe <- make_block(5, 5, type = "data.frame")
+a_dataframe
+```
+
+or using an existing `data.frame`
+
+```{r}
+mydf <- data.frame(a=1:2, b=2:3)
+b_dataframe <- make_block(mydf, type = "data.frame")
+b_dataframe
+```
+
+If the blocks are created from an existing `data.frame`, its contents will be stored, and can be displayed:
+
+```{r}
+display(b_dataframe, show_indices = T, show_data = T)
+```
+
+along with its indices:
+```{r}
+display(b_dataframe, show_indices = T, show_data = T)
+```
+
+
+### List
+
+```{r}
+a_list <- make_block(list(x = 1:2, y = LETTERS[1:4], z = c(T, F)))
+a_list
+```
+
+Currently it is only possible to display the list indices:
+
+```{r}
+display(a_list, show_indices = T)
+```
+
+
+## How to customize fill color using a fill_by function.
+
+It is possible to customise the fill color of the blocks by a function. The example below will give different colors to blocks depending on their type:
+
+```{r}
+fill_by <- function(f){
+  function(x){
+    switch(f(x), 'numeric' = "#a6cee3", 'logical' = "#1f78b4", "#b2df8a")
+  }
+}
+options(fill_by = fill_by(mode))
+getOption('fill_by', function(x){return("#b2df8a")})(1)
+```
+
+Lets try with a list:
+
+```{r}
+a_list <- make_block(list(x = 1:2, y = LETTERS[1:4], z = c(T, F)))
+display(a_list, show_indices = T)
+```
+
