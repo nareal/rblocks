@@ -1,3 +1,4 @@
+#' @export
 make_block <- function(x, ...){
   UseMethod('make_block')
 }
@@ -7,21 +8,40 @@ make_block.list <- function(x, ...){
   as.block(lapply(x, function(xi){
     rep(get_fill(xi), length(xi))
   }))
+  #original_data <- x
+  #new_block <- as.block(lapply(x, function(xi){
+  #  rep(get_fill(xi), length(xi))
+  #}))
+  #attr(new_block, 'original_data') <- original_data
+  #return(new_block)
 }
 
 #' @export
 make_block.matrix <- function(x, ...){
-  as.block(apply(x, 2, function(xi){
+  #as.block(apply(x, 2, function(xi){
+  #  rep(get_fill(xi), length(xi))
+  #}))
+  original_data <- x
+  new_block <- as.block(apply(x, 2, function(xi){
     rep(get_fill(xi), length(xi))
   }))
+  attr(new_block, 'original_data') <- original_data
+  return(new_block)
 }
 
 #' @export
 make_block.data.frame = function(x, ...){
-  as.block(as.data.frame(lapply(x, function(xi){
+  #as.block(as.data.frame(lapply(x, function(xi){
+  #  rep(get_fill(xi), length(xi))
+  #}), stringsAsFactors = F))
+  original_data <- x
+  new_block <- as.block(as.data.frame(lapply(x, function(xi){
     rep(get_fill(xi), length(xi))
   }), stringsAsFactors = F))
+  attr(new_block, 'original_data') <- original_data
+  return(new_block)
 }
+
 
 # make_block.default = function(x){
 #   as.block(rep(get_fill(mode(xi)), length(x)))
@@ -30,7 +50,11 @@ make_block.data.frame = function(x, ...){
 #' @export
 make_block.default = function(x, ...){
   if (length(x) > 1){
-    return(as.block(rep(get_fill(x), length(x))))
+    #return(as.block(rep(get_fill(x), length(x))))
+    original_data <- x
+    new_block <- as.block(rep(get_fill(x), length(x)))
+    attr(new_block, 'original_data') <- original_data
+    return(new_block)
   }
   dotlist = list(nrow = x, ...)
   if (!("type" %in% names(dotlist))){
