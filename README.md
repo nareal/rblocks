@@ -21,6 +21,8 @@ An example
 library(rblocks)
 mydf <- data.frame(a=1:2, b=2:3)
 b_dataframe <- make_block(mydf, type = "data.frame")
+b_dataframe[1,1] <- "orange"
+b_dataframe[2,2] <- "orange"
 display(b_dataframe, show_indices = T, show_data = T)
 ```
 
