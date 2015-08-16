@@ -109,14 +109,18 @@ display = function(block, show_values = F, show_indices = F, show_data = F){
         if (is.null(dim(block))){
           # vectors
           text(j, i-0.2, labels = paste("[", j, "]"), col = "black", cex=0.6)
-          if ((show_data) && (!is.null(attr(block, "original_data")[j]))){
-            text(j, i, labels = attr(block, "original_data")[j], col = "black", cex=1)
-          }
         } else {
           text(j, i-0.2, labels = paste("[", i, ",", j, "]"), col = "black", cex=0.6)
-          if ((show_data) && (!is.null(attr(block, "original_data")[i,j]))){
-            text(j, i, labels = attr(block, "original_data")[i,j], col = "black", cex=1)
-          }
+        }
+      }
+      if ((show_data) && (data[i,j] != "white")){
+        if (is.null(dim(block))){
+          # vectors
+          text(j, i+0.2, labels = attr(block, "original_data")[j], col = "black", cex=0.8)
+
+        } else {
+          text(j, i+0.2, labels = attr(block, "original_data")[i,j], col = "black", cex=0.8)
+
         }
       }
     }
