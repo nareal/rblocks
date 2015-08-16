@@ -10,3 +10,5 @@ Description: rBlocks is a port of ipythonblocks to R, to provide a fun and
     visual tool to explore data structures and control flow.
 License: MIT
 Roxygen: list(wrap = FALSE)
+Suggests: knitr
+VignetteBuilder: knitr

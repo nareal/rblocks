@@ -53,7 +53,7 @@ print.block = function(x, ...){
 #'
 #' @param block an object of block class
 #' @export
-display = function(block, show_values = F){
+display = function(block, show_values = F, show_indices = F, show_data = F){
   values = block
   if (!('block' %in% class(block))){
     block = make_block(block)
@@ -105,6 +105,24 @@ display = function(block, show_values = F){
       )
       # text(i, j, labels = paste("(", i, ",", j, ")"))
       # text(j, i, labels = paste("(", j, ",", i, ")"))
+      if ((show_indices) && (data[i,j] != "white")){
+        if (is.null(dim(block))){
+          # vectors
+          text(j, i-0.2, labels = paste("[", j, "]"), col = "black", cex=0.6)
+        } else {
+          text(j, i-0.2, labels = paste("[", i, ",", j, "]"), col = "black", cex=0.6)
+        }
+      }
+      if ((show_data) && (data[i,j] != "white")){
+        if (is.null(dim(block))){
+          # vectors
+          text(j, i+0.2, labels = attr(block, "original_data")[j], col = "black", cex=0.8)
+
+        } else {
+          text(j, i+0.2, labels = attr(block, "original_data")[i,j], col = "black", cex=0.8)
+
+        }
+      }
     }
   }
 
