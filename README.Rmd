@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 Is a fun and visual way to learn data structures and control flow in R. The package was originally developed by [Ramnath Vaidyanathan](http://ramnathv.github.io/), please refer to this [blog post](http://ramnathv.github.io/posts/rblocks-pkg) for more details on the original package.
 
-In this fork I have added the ability to display block indices and the original data contents. This is particularly useful to create blocks when teaching about R data structures and how to subset them. 
+In this fork I have added the ability to display block indices and the original data contents. This is particularly useful to create blocks when creating materials to teach about R data structures and how to subset them. It is not intended to be used directly by someone learning R. There is a nice discussion about [print values inside blocks](https://github.com/ramnathv/rblocks/issues/1) on github [issues page for ramnathv/rblocks](https://github.com/ramnathv/rblocks/issues).
 
 ## Installation
 
@@ -36,10 +36,9 @@ b_dataframe <- make_block(mydf, type = "data.frame")
 b_dataframe[1,1] <- "orange"
 b_dataframe[2,2] <- "orange"
 display(b_dataframe, show_indices = T, show_data = T)
-
 ```
 
-For more details please refer to the package vignette.
+For more details please refer to the package vignette of this fork.
 
 ```{r, eval=FALSE}
 vignette("rblocks-intro")

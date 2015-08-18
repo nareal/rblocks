@@ -60,6 +60,24 @@ a_list
 display(a_list, show_indices = T)
 
 ## ------------------------------------------------------------------------
+library(rblocks)
+d1 <- data.frame(x = 1:6, y = rep(LETTERS[1:3], 2), stringsAsFactors = F)
+
+m <- rbind(c(1, 2, 0), c(1, 3, 5), c(1, 4, 0))
+layout(m)
+display(d1, show_values = TRUE)
+library(plyr)
+h = ddply(d1, "y", function(x){
+  display(x, show_values = TRUE)
+  summarise(x, avg = mean(x))
+})
+
+display(h, show_values = TRUE)
+
+## ---- echo=FALSE---------------------------------------------------------
+dev.off()
+
+## ------------------------------------------------------------------------
 fill_by <- function(f){
   function(x){
     switch(f(x), 'numeric' = "#a6cee3", 'logical' = "#1f78b4", "#b2df8a")
